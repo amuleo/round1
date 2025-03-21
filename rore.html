@@ -69,6 +69,14 @@
             background-color: #42A5F5; /* رنگ پس‌زمینه زنده */
             color: white;
             width: 100px;
+            user-select: none; /* جلوگیری از انتخاب متن */
+            cursor: pointer; /* تغییر نشانگر به دست برای تاکید بر کلیک‌پذیری */
+        }
+        .label-box:hover {
+    background-color: #1565C0; /* تغییر رنگ پس‌زمینه */
+    color: white; /* تغییر رنگ متن */
+    transform: scale(1.05); /* کمی بزرگ‌تر شدن هنگام هاور */
+    transition: all 0.3s ease; /* انیمیشن نرم */
         }
         #radius-button {
             padding: 10px;
@@ -333,11 +341,11 @@ button:hover {
     <div class="controls">
         <div class="control-group">
             <input type="text" id="width" placeholder="طول (پیکسل)" value="300">
-            <div class="label-box">طول</div>
+            <div class="label-box width-label">طول</div>
         </div>
         <div class="control-group">
             <input type="text" id="height" placeholder="عرض (پیکسل)" value="100">
-            <div class="label-box">عرض</div>
+            <div class="label-box height-label">عرض</div>
         </div>
         <div class="control-group">
             <input type="range" id="radius-slider" min="0" max="50" value="0">
@@ -390,6 +398,8 @@ button:hover {
     const aboutIcon = document.querySelector('.about-icon');
     const upopup = document.getElementById('unique-popup'); // عنصر اصلی پاپ‌آپ
     const closeButton = document.getElementById('close-unique-popup')
+    const widthLabel = document.querySelector('.width-label');
+    const heightLabel = document.querySelector('.height-label');
 
     // تنظیم سایز اولیه
     rectangle.style.width = `${widthInput.value}px`;
@@ -488,6 +498,17 @@ button:hover {
      upopup.style.display = "none"; // مخفی کردن پاپ‌آپ
 });
 
+// عملکرد برای دیو "طول"
+widthLabel.addEventListener('click', () => {
+    widthInput.focus(); // تمرکز روی تکست‌باکس
+    widthInput.select(); // انتخاب متن داخل تکست‌باکس
+});
+
+// عملکرد برای دیو "عرض"
+heightLabel.addEventListener('click', () => {
+    heightInput.focus();
+    heightInput.select();
+});
 
 </script>
 
