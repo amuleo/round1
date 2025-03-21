@@ -142,7 +142,7 @@
     padding: 20px;
     border-radius: 10px;
     width: 90%;
-    max-width: 400px;
+    max-width: 300px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
@@ -217,9 +217,53 @@ button:hover {
     display: none;
 }
 
+/* استایل باکس عنوان */
+.title-box {
+    display: flex; /* ایجاد ساختار افقی */
+    align-items: center; /* ترازبندی عمودی در مرکز */
+    justify-content: space-between; /* فاصله مناسب بین عناصر */
+    background-color: #424242; /* رنگ آبی متناسب با تم */
+    color: white; /* رنگ متن سفید */
+    padding: 15px 20px; /* فاصله داخلی */
+    border-radius: 10px; /* گردی گوشه‌ها */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* سایه ملایم */
+    margin-bottom: 20px; /* فاصله از عناصر پایین */
+    width: 100%;
+    max-width: 320px;
+    direction: rtl;
+}
+
+/* استایل متن عنوان */
+.title-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0; /* حذف فاصله اضافی */
+    font-family: "Dana", Arial, sans-serif; /* فونت متناسب */
+}
+
+/* استایل آیکون درباره */
+.about-icon {
+    font-size: 20px; /* اندازه آیکون */
+    cursor: pointer; /* تغییر نشانگر به دست */
+    margin-left: 10px; /* فاصله با متن عنوان */
+    transition: transform 0.2s ease, color 0.2s ease; /* انیمیشن ملایم */
+}
+
+.about-icon:hover {
+    transform: scale(1.2); /* بزرگ شدن هنگام هاور */
+    color: #FFEB3B; /* تغییر رنگ به زرد هنگام هاور */
+}
+
     </style>
 </head>
 <body>
+    <div class="title-box">
+    <h1 class="title-text">ابزار گرد کننده مستطیل آنلاین</h1>
+    <div class="about-icon" title="درباره">
+        &#9432; <!-- آیکون درباره (ℹ️) -->
+    </div>
+</div>
+
     <div id="rectangle"></div>
     <div class="controls">
         <div class="control-group">
@@ -278,7 +322,9 @@ button:hover {
     const applyButton = document.getElementById('apply-corners');
     const popup = document.getElementById('popup'); // پاپ‌آپ
     const closePopupButton = document.getElementById('close-popup'); // دکمه بستن پاپ‌آپ
-    
+    const aboutIcon = document.querySelector('.about-icon');
+
+
 
     // تنظیم سایز اولیه
     rectangle.style.width = `${widthInput.value}px`;
@@ -365,6 +411,11 @@ button:hover {
         // بستن پاپ‌آپ با کلیک روی دکمه "بستن"
         closePopupButton.addEventListener('click', () => {
             popup.classList.add('hidden'); // مخفی کردن پاپ‌آپ
+        });
+
+      
+        aboutIcon.addEventListener('click', () => {
+            alert('تمامی حقوق برای آقای الیو محفوظ است');
         });
 
 </script>
