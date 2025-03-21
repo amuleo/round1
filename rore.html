@@ -106,7 +106,7 @@
     <div id="rectangle"></div>
     <div class="controls">
         <div class="control-group">
-            <input type="text" id="width" placeholder="طول (پیکسل)" value="350">
+            <input type="text" id="width" placeholder="طول (پیکسل)" value="300">
             <div class="label-box">طول</div>
         </div>
         <div class="control-group">
@@ -119,6 +119,7 @@
             <div class="range-label">میزان گردی</div>
         </div>
         <button id="download">دانلود خروجی نهایی</button>
+        <button id="download-high-quality">دانلود خروجی با کیفیت</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/html2canvas"></script>
@@ -130,6 +131,7 @@
         const radiusInput = document.getElementById('radius-input');
         const rangeLabel = document.querySelector('.range-label');
         const downloadButton = document.getElementById('download');
+        const downloadHighQualityButton = document.getElementById('download-high-quality');
 
         // تنظیم سایز اولیه
         rectangle.style.width = `${widthInput.value}px`;
@@ -138,7 +140,7 @@
         widthInput.addEventListener('input', () => {
             let width = parseInt(widthInput.value);
             if (!isNaN(width)) {
-                width = Math.max(1, Math.min(350, width)); // محدود کردن بین 1 تا 350
+                width = Math.max(1, Math.min(300, width)); // محدود کردن بین 1 تا 300
                 rectangle.style.width = `${width}px`;
             }
             widthInput.value = width || ''; // مقدار خالی در صورت ورودی نامعتبر
@@ -147,7 +149,7 @@
         heightInput.addEventListener('input', () => {
             let height = parseInt(heightInput.value);
             if (!isNaN(height)) {
-                height = Math.max(1, Math.min(350, height)); // محدود کردن بین 1 تا 350
+                height = Math.max(1, Math.min(300, height)); // محدود کردن بین 1 تا 300
                 rectangle.style.height = `${height}px`;
             }
             heightInput.value = height || ''; // مقدار خالی در صورت ورودی نامعتبر
@@ -182,6 +184,15 @@
             html2canvas(rectangle, { backgroundColor: null }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'rectangle.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+
+        downloadHighQualityButton.addEventListener('click', () => {
+            html2canvas(rectangle, { scale: 2, backgroundColor: null }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'rectangle-high-quality.png';
                 link.href = canvas.toDataURL();
                 link.click();
             });
