@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستطیل گوشه‌گرد</title>
+    <title>مستطیل گوشه‌گرد با پالت رنگی</title>
     <style>
         @font-face {
             font-family: "Dana";
@@ -14,7 +14,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #E3F2FD; /* آبی کمرنگ برای پس‌زمینه */
             color: #000;
             font-family: "Dana", Arial, sans-serif;
             display: flex;
@@ -27,7 +27,7 @@
             width: 90%;
             max-width: 350px;
             height: 100px;
-            background-color: #607D8B;
+            background-color: #42A5F5; /* آبی زنده برای مستطیل */
             margin-bottom: 20px;
             border-radius: 0;
             transition: all 0.2s ease;
@@ -48,35 +48,55 @@
         }
         input[type="text"] {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #64B5F6; /* خط دور آبی روشن */
             border-radius: 5px;
             font-size: 16px;
             font-family: "Dana", Arial, sans-serif;
             text-align: center;
-            background-color: #f5f5f5;
+            background-color: #E3F2FD; /* پس‌زمینه مشابه اصلی */
             width: 100%;
             max-width: 150px;
         }
-        .label-box, .range-label {
+        .label-box {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #64B5F6;
             border-radius: 5px;
             font-size: 16px;
             font-family: "Dana", Arial, sans-serif;
             text-align: center;
-            background-color: #607D8B;
+            background-color: #42A5F5; /* رنگ پس‌زمینه زنده */
             color: white;
             width: 100px;
         }
+        #radius-button {
+            padding: 10px;
+            border: 1px solid #64B5F6;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: "Dana", Arial, sans-serif;
+            text-align: center;
+            background-color: #1E88E5; /* رنگ آبی تیره‌تر */
+            color: white;
+            width: 150px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        #radius-button:hover {
+            background-color: #1565C0; /* تغییر رنگ در هاور */
+        }
         input[type="range"] {
-            width: 100%;
-            max-width: 150px;
+            width: 225px; /* عرض جدید */
+            height: 18px;
+            background-color: #BBDEFB; /* رنگ آبی روشن */
+            border: none;
+            border-radius: 5px;
+            outline: none;
         }
         button {
-            background-color: #607D8B;
+            background-color: #1E88E5;
             color: white;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #64B5F6;
             border-radius: 5px;
             font-size: 16px;
             font-family: "Dana", Arial, sans-serif;
@@ -86,19 +106,19 @@
             transition: background-color 0.2s ease;
         }
         button:hover {
-            background-color: #546E7A;
+            background-color: #1565C0;
         }
         /* واکنش‌گرایی */
         @media (max-width: 768px) {
             #rectangle {
                 height: auto;
             }
-            .label-box, .range-label, input[type="text"], button {
+            input[type="text"], #radius-button, input[type="range"], button {
                 font-size: 14px;
             }
         }
         .hidden {
-            display: none; /* مخفی کردن عناصر */
+            display: none;
         }
     </style>
 </head>
@@ -115,8 +135,8 @@
         </div>
         <div class="control-group">
             <input type="range" id="radius-slider" min="0" max="50" value="0">
-            <input type="text" id="radius-input" class="hidden" placeholder="میزان گردی (پیکسل)" value="0">
-            <div class="range-label">میزان گردی</div>
+            <input type="text" id="radius-input" class="hidden" placeholder="گردی (پیکسل)" value="0">
+            <button id="radius-button">گردی</button>
         </div>
         <button id="download">دانلود خروجی نهایی</button>
         <button id="download-high-quality">دانلود خروجی با کیفیت</button>
@@ -129,7 +149,7 @@
         const heightInput = document.getElementById('height');
         const radiusSlider = document.getElementById('radius-slider');
         const radiusInput = document.getElementById('radius-input');
-        const rangeLabel = document.querySelector('.range-label');
+        const radiusButton = document.getElementById('radius-button');
         const downloadButton = document.getElementById('download');
         const downloadHighQualityButton = document.getElementById('download-high-quality');
 
@@ -140,27 +160,30 @@
         widthInput.addEventListener('input', () => {
             let width = parseInt(widthInput.value);
             if (!isNaN(width)) {
-                width = Math.max(1, Math.min(300, width)); // محدود کردن بین 1 تا 300
+                width = Math.max(1, Math.min(300, width));
                 rectangle.style.width = `${width}px`;
+            } else {
+                width = 1;
             }
-            widthInput.value = width || ''; // مقدار خالی در صورت ورودی نامعتبر
+            widthInput.value = width;
         });
 
         heightInput.addEventListener('input', () => {
             let height = parseInt(heightInput.value);
             if (!isNaN(height)) {
-                height = Math.max(1, Math.min(300, height)); // محدود کردن بین 1 تا 300
+                height = Math.max(1, Math.min(300, height));
                 rectangle.style.height = `${height}px`;
+            } else {
+                height = 1;
             }
-            heightInput.value = height || ''; // مقدار خالی در صورت ورودی نامعتبر
+            heightInput.value = height;
         });
 
         radiusSlider.addEventListener('input', () => {
             rectangle.style.borderRadius = `${radiusSlider.value}px`;
         });
 
-        // قابلیت دابل کلیک برای تغییر بین اسلایدر و ورودی متنی
-        rangeLabel.addEventListener('dblclick', () => {
+        radiusButton.addEventListener('click', () => {
             if (radiusSlider.classList.contains('hidden')) {
                 radiusSlider.classList.remove('hidden');
                 radiusInput.classList.add('hidden');
@@ -190,7 +213,7 @@
         });
 
         downloadHighQualityButton.addEventListener('click', () => {
-            html2canvas(rectangle, { scale: 2, backgroundColor: null }).then(canvas => {
+            html2canvas(rectangle, { scale: 10, backgroundColor: null }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'rectangle-high-quality.png';
                 link.href = canvas.toDataURL();
