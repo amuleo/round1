@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستطیل گوشه‌گرد</title>
+    <style>
+        @font-face {
+            font-family: "Dana";
+            src: url("https://bayanbox.ir/download/2355506753372456582/Dana-Thin.woff2") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #000;
+            font-family: "Dana", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #rectangle {
+            width: 90%;
+            max-width: 350px;
+            height: 100px;
+            background-color: #607D8B;
+            margin-bottom: 20px;
+            border-radius: 0;
+            transition: all 0.2s ease;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 90%;
+            max-width: 300px;
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: "Dana", Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            width: 100%;
+            max-width: 150px;
+        }
+        .label-box, .range-label {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: "Dana", Arial, sans-serif;
+            text-align: center;
+            background-color: #607D8B;
+            color: white;
+            width: 100px;
+        }
+        input[type="range"] {
+            width: 100%;
+            max-width: 150px;
+        }
+        button {
+            background-color: #607D8B;
+            color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: "Dana", Arial, sans-serif;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #546E7A;
+        }
+        /* واکنش‌گرایی */
+        @media (max-width: 768px) {
+            #rectangle {
+                height: auto;
+            }
+            .label-box, .range-label, input[type="text"], button {
+                font-size: 14px;
+            }
+        }
+        .hidden {
+            display: none; /* مخفی کردن عناصر */
+        }
+    </style>
+</head>
+<body>
+    <div id="rectangle"></div>
+    <div class="controls">
+        <div class="control-group">
+            <input type="text" id="width" placeholder="طول (پیکسل)" value="350">
+            <div class="label-box">طول</div>
+        </div>
+        <div class="control-group">
+            <input type="text" id="height" placeholder="عرض (پیکسل)" value="100">
+            <div class="label-box">عرض</div>
+        </div>
+        <div class="control-group">
+            <input type="range" id="radius-slider" min="0" max="50" value="0">
+            <input type="text" id="radius-input" class="hidden" placeholder="میزان گردی (پیکسل)" value="0">
+            <div class="range-label">میزان گردی</div>
+        </div>
+        <button id="download">دانلود خروجی نهایی</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas"></script>
+    <script>
+        const rectangle = document.getElementById('rectangle');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const radiusSlider = document.getElementById('radius-slider');
+        const radiusInput = document.getElementById('radius-input');
+        const rangeLabel = document.querySelector('.range-label');
+        const downloadButton = document.getElementById('download');
+
+        // تنظیم سایز اولیه
+        rectangle.style.width = `${widthInput.value}px`;
+        rectangle.style.height = `${heightInput.value}px`;
+
+        widthInput.addEventListener('input', () => {
+            let width = parseInt(widthInput.value);
+            if (!isNaN(width)) {
+                width = Math.max(1, Math.min(350, width)); // محدود کردن بین 1 تا 350
+                rectangle.style.width = `${width}px`;
+            }
+            widthInput.value = width || ''; // مقدار خالی در صورت ورودی نامعتبر
+        });
+
+        heightInput.addEventListener('input', () => {
+            let height = parseInt(heightInput.value);
+            if (!isNaN(height)) {
+                height = Math.max(1, Math.min(350, height)); // محدود کردن بین 1 تا 350
+                rectangle.style.height = `${height}px`;
+            }
+            heightInput.value = height || ''; // مقدار خالی در صورت ورودی نامعتبر
+        });
+
+        radiusSlider.addEventListener('input', () => {
+            rectangle.style.borderRadius = `${radiusSlider.value}px`;
+        });
+
+        // قابلیت دابل کلیک برای تغییر بین اسلایدر و ورودی متنی
+        rangeLabel.addEventListener('dblclick', () => {
+            if (radiusSlider.classList.contains('hidden')) {
+                radiusSlider.classList.remove('hidden');
+                radiusInput.classList.add('hidden');
+                radiusSlider.value = radiusInput.value;
+                rectangle.style.borderRadius = `${radiusSlider.value}px`;
+            } else {
+                radiusSlider.classList.add('hidden');
+                radiusInput.classList.remove('hidden');
+                radiusInput.value = radiusSlider.value;
+                rectangle.style.borderRadius = `${radiusInput.value}px`;
+            }
+        });
+
+        radiusInput.addEventListener('input', () => {
+            let radius = Math.max(0, Math.min(50, parseInt(radiusInput.value) || 0));
+            radiusInput.value = radius;
+            rectangle.style.borderRadius = `${radius}px`;
+        });
+
+        downloadButton.addEventListener('click', () => {
+            html2canvas(rectangle, { backgroundColor: null }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'rectangle.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+    </script>
+</body>
+</html>
