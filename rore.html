@@ -222,15 +222,17 @@ button:hover {
     display: flex; /* ایجاد ساختار افقی */
     align-items: center; /* ترازبندی عمودی در مرکز */
     justify-content: space-between; /* فاصله مناسب بین عناصر */
-    background-color: #424242; /* رنگ آبی متناسب با تم */
+    background-color: #424242; /* رنگ خاکستری متناسب با تم */
     color: white; /* رنگ متن سفید */
     padding: 15px 20px; /* فاصله داخلی */
-    border-radius: 10px; /* گردی گوشه‌ها */
+    border-radius: 0px; /* گردی گوشه‌ها */
+    position: fixed; /* ثابت کردن در بالای صفحه */
+    top: 0; /* چسباندن به بالای صفحه */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* سایه ملایم */
     margin-bottom: 20px; /* فاصله از عناصر پایین */
     width: 100%;
-    max-width: 320px;
     direction: rtl;
+    z-index: 1000; /* اطمینان از قرارگیری بالاتر از سایر عناصر */
 }
 
 /* استایل متن عنوان */
@@ -239,6 +241,7 @@ button:hover {
     font-weight: bold;
     margin: 0; /* حذف فاصله اضافی */
     font-family: "Dana", Arial, sans-serif; /* فونت متناسب */
+    padding-right: 10px;
 }
 
 /* استایل آیکون درباره */
